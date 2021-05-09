@@ -7,16 +7,42 @@ import { Content } from './components/Content';
 
 import './styles/global.scss';
 
-// @props
-// MovieProps <- from src/@types/movie.d.ts
-// GenreResponseProps <- from src/@types/genre.d.ts
+//creating the context
+import { createContext } from 'react';
+
+interface GlobalData {
+  genres: GenreResponseProps[];
+  selectedGenreId: number;
+  selectedGenre: GenreResponseProps;
+  handleClickButton: (id: number) => void;
+  movies: MovieProps[];
+}
+
+export const Global = createContext({} as GlobalData);
+
+interface MovieProps {
+  imdbID: string;
+  Title: string;
+  Poster: string;
+  Ratings: Array<{
+    Source: string;
+    Value: string;
+  }>;
+  Runtime: string;
+}
+
+interface GenreResponseProps {
+  id: number;
+  name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
+  title: string;
+}
 
 export function App() {
   const [selectedGenreId, setSelectedGenreId] = useState(1);
 
-  const [genres, setGenres] = useState<GenreResponseProps[]>([]); 
+  const [genres, setGenres] = useState<GenreResponseProps[]>([]);
 
-  const [movies, setMovies] = useState<MovieProps[]>([]); 
+  const [movies, setMovies] = useState<MovieProps[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
 
   useEffect(() => {
@@ -41,8 +67,12 @@ export function App() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <SideBar genres={genres} selectedGenreId={selectedGenreId} onClick={handleClickButton} />
-      <Content movies={movies} selectedGenre={selectedGenre} />
+      <Global.Provider
+        value={{ genres, movies, selectedGenreId, selectedGenre, handleClickButton }}
+      >
+        <SideBar />
+        <Content />
+      </Global.Provider>
     </div>
   );
 }

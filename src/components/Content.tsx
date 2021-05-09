@@ -1,22 +1,17 @@
+import { useContext } from 'react';
+import { Global } from '../App';
 import { MovieCard } from '../components/MovieCard';
 
 import '../styles/content.scss';
 import { Header } from './Header';
 
-// @props
-// MovieProps <- from src/@types/movie.d.ts
-// GenreResponseProps <- from src/@types/genre.d.ts
-
-interface ContentProps {
-  selectedGenre: GenreResponseProps;
-  movies: MovieProps[];
-}
-
-export function Content({ selectedGenre, movies }: ContentProps) {
+export function Content() {
   // Complete aqui
+  const { movies } = useContext(Global);
+
   return (
     <div className='container'>
-      <Header selectedGenreTitle={selectedGenre.title} />
+      <Header />
 
       <main>
         <div className='movies-list'>
