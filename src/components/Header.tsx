@@ -1,14 +1,14 @@
-import { useContext } from 'react';
-import { Global } from '../App';
 import '../styles/header.scss';
 
-export function Header() {
-  const { selectedGenre } = useContext(Global);
+interface HeaderProps {
+  title: string;
+}
 
+export function Header({ title }: HeaderProps) {
   return (
     <header>
       <span className='category'>
-        Categoria:<span> {selectedGenre.title}</span>
+        Categoria:<span> {title}</span>
       </span>
     </header>
   );
